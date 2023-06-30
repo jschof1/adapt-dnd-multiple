@@ -1,0 +1,18 @@
+{
+  "name": "adapt-dnd-multiple",
+  "version": "1.0.0",
+  "framework": ">=5.19.1",
+  "homepage": "https://github.com/nachocinalli/dnd-multiple",
+  "bugs": "https://github.com/nachocinalli/dnd-multiple/issues",
+  "component": "dnd-multiple",
+  "targetAttribute": "_dnd-multiple",
+  "displayName": "dnd-multiple",
+  "description": "A simple dnd-multiple component",
+  "main": "/js/adapt-dnd-multiple.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-component"
+  ],
+  "license": "GPL-3.0",
+  "private": true
+}

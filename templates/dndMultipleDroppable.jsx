@@ -26,7 +26,7 @@ export default function DndMultipleDroppable({
             style={{ width }}
           >
             <div
-              className='dnd-multiple__title'
+              className='dnd-multiple__item-title'
               dangerouslySetInnerHTML={{ __html: title }}
             ></div>
             <div

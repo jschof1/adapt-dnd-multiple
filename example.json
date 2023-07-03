@@ -21,6 +21,7 @@
   "_canShowMarking": true,
   "_recordInteraction": true,
   "_hasItemScoring": false,
+  "_useStrictOrder": false,
   "_startText": "Choices",
   "_items": [
     {

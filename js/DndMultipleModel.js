@@ -218,7 +218,27 @@ export default class DnDMultipleModel extends QuestionModel {
   resetUserAnswer() {
     this.set('_userAnswer', []);
   }
+  resetItems() {
+    const objectItems = this.get('_items');
+    const items = Object.keys(this.get('_items')).map(
+      (key) => objectItems[key]
+    );
+    items.forEach((item) => {
+      item._isCorrect = true;
+      item._userAnswer = [];
+      item._options = [];
+    });
+    items[0]._options = this.get('_allOptions');
+    const intialItems = items.reduce((intialItems, item) => {
+      intialItems[item.id] = item;
+      return intialItems;
+    }, {});
+    this.setItems(intialItems);
+  }
 
+  resetQuestion() {
+    this.resetItems();
+  }
   getResponse() {
     const response = this.get('_userAnswer').map((option) => {
       return option.join('.');

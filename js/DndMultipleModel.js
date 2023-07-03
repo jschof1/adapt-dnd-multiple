@@ -101,15 +101,29 @@ export default class DnDMultipleModel extends QuestionModel {
   }
 
   markItems() {
-    const items = this.getDraggableItems();
+    const objItems = this.get('_items');
+    const items = Object.keys(objItems).map((key) => objItems[key]);
     items.forEach((item) => {
-      item._isCorrect = item._options.every((option) => {
-        return option._itemIndex === item.id;
+      item._options.forEach((option, optionIndex) => {
+        if (this.get('_useStrictOrder')) {
+          option._isCorrect =
+            option._optionIndex === optionIndex &&
+            option._itemIndex === item.id;
+        } else {
+          option._isCorrect = option._itemIndex === item.id;
+        }
       });
-      item._options.forEach((option) => {
-        option._isCorrect = option._itemIndex === item.id;
-      });
+      if (
+        item._options.every((option) => {
+          return option._isCorrect;
+        })
+      ) {
+        item._isCorrect = true;
+      } else {
+        item._isCorrect = false;
+      }
     });
+    this.setItems(items);
   }
 
   storeUserAnswer() {
@@ -138,7 +152,12 @@ export default class DnDMultipleModel extends QuestionModel {
 
   isCorrect() {
     const hasAllCorrectAnswers = this.getDraggableItems().every((item) => {
-      return item._options.every((option) => {
+      return item._options.every((option, optionIndex) => {
+        if (this.get('_useStrictOrder')) {
+          return (
+            option._itemIndex === item.id && option._optionIndex === optionIndex
+          );
+        }
         return option._itemIndex === item.id;
       });
     });
@@ -157,8 +176,14 @@ export default class DnDMultipleModel extends QuestionModel {
       (numberOfCorrectAnswers, item) => {
         return (
           numberOfCorrectAnswers +
-          item._options.filter((option) => {
+          item._options.filter((option, optionIndex) => {
             if (!option) return false;
+            if (this.get('_useStrictOrder')) {
+              return (
+                option._itemIndex === item.id &&
+                option._optionIndex === optionIndex
+              );
+            }
             return option._itemIndex === item.id;
           }).length
         );
@@ -169,7 +194,6 @@ export default class DnDMultipleModel extends QuestionModel {
       _isAtLeastOneCorrectSelection: hasPartlyCorrectAnswers,
       _numberOfCorrectAnswers
     });
-
     return hasAllCorrectAnswers && !hasIncorrectAnswers;
   }
 

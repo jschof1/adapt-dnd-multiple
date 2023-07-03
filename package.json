@@ -6,7 +6,7 @@
   "bugs": "https://github.com/nachocinalli/dnd-multiple/issues",
   "component": "dnd-multiple",
   "targetAttribute": "_dnd-multiple",
-  "displayName": "dnd-multiple",
+  "displayName": "Drag and Drop Multiple",
   "description": "A simple dnd-multiple component",
   "main": "/js/adapt-dnd-multiple.js",
   "keywords": [

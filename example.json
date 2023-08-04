@@ -23,6 +23,7 @@
   "_hasItemScoring": false,
   "_useStrictOrder": false,
   "_startText": "Choices",
+  "_itemMinHeight": 0,
   "_items": [
     {
       "title": "Category 1",

@@ -7,10 +7,10 @@ export default function DndMultipleDroppable({
   width,
   isEnabled,
   _allOptions,
+  _itemMinHeight,
   _globals
 }) {
-  const minHeight =
-    droppableId === '0' ? 'auto' : `${_allOptions.length * 4}rem`;
+  const minHeight = droppableId === '0' ? 'auto' : `${_allOptions.length * _itemMinHeight}rem`;
   return (
     <>
       <Droppable droppableId={droppableId}>
@@ -25,16 +25,8 @@ export default function DndMultipleDroppable({
             ])}
             style={{ width }}
           >
-            <div
-              className='dnd-multiple__item-title'
-              dangerouslySetInnerHTML={{ __html: title }}
-            ></div>
-            <div
-              style={{ minHeight }}
-              className='dnd-multiple__dropitem'
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <div className='dnd-multiple__item-title' dangerouslySetInnerHTML={{ __html: title }}></div>
+            <div style={{ minHeight }} className='dnd-multiple__dropitem' {...provided.droppableProps} ref={provided.innerRef}>
               {_options.map((option, index) => (
                 <templates.dndMultipleDraggable
                   key={option.id}

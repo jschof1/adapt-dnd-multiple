@@ -89,6 +89,12 @@
             "translatable": true
           }
         },
+        "_itemMinHeight": {
+          "type": "number",
+          "title": "Item minimum height",
+          "description": "Minimum height of the item container. If set to 0, the height will be calculated automatically.",
+          "default": 0
+        },
         "_items": {
           "type": "array",
           "title": "Items",

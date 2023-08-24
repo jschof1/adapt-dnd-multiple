@@ -1,9 +1,68 @@
 import QuestionModel from 'core/js/models/questionModel';
+import Adapt from 'core/js/adapt';
+
 export default class DnDMultipleModel extends QuestionModel {
+
   init() {
     super.init();
-    this.setUpItems();
     this.checkCanSubmit();
+    const textId = this.get('textId') || [];
+    if (!textId.length) {
+      this.setUpItems();
+    } else {
+      const userInput = Adapt.findById(textId[textId.length - 1]);
+      if (userInput) {
+        userInput.on('change:_isComplete', this.onUserInputComplete, this);
+      } else {
+        console.error(`Component with id ${textId[textId.length - 1]} not found.`);
+      }
+    }
+  }
+
+  onUserInputComplete(model, isComplete) {
+    console.log(isComplete ? 'User Input is complete' : 'User Input is not complete');
+    if (isComplete) {
+      this.updateItems();
+    }
+  }
+
+  updateItems() {
+    const updatedValues = this.get('textId').map(a => Adapt.findById(a).get('_items').map((item) => item.userAnswer)).flat();
+    console.log(updatedValues);
+    if (!updatedValues) return;
+
+    const newOptions = this.stringsToItems(updatedValues);
+    const existingItems = this.get('_items') || [];
+    console.log(newOptions);
+    console.log(existingItems);
+
+    if (existingItems.length > 0) {
+      existingItems[0]._options = newOptions;
+
+      const updated = [...existingItems];
+      this.set({ _items: updated });
+
+      this.setUpItems();
+      this.setUpItemsOptions();
+    }
+  }
+
+  stringsToItems(strings) {
+    return strings.map((text, index) => {
+      return {
+        title: text,
+        _graphic: {
+          src: "",
+          isBackground: false,
+          alt: ""
+        },
+        id: index,
+        _optionIndex: index,
+        _itemIndex: Math.floor(index / 3) + 1, // Assuming there are 3 options per item
+        _itemId: Math.floor(index / 3),
+        _isCorrect: true
+      };
+    });
   }
 
   reset(type = 'hard', canReset = this.get('_canReset')) {
@@ -19,12 +78,14 @@ export default class DnDMultipleModel extends QuestionModel {
   setUpItems() {
     let index = 0;
     const items = JSON.parse(JSON.stringify(this.get('_items'))) || [];
+
     items.forEach((item, itemIndex) => {
       item.id = itemIndex + 1;
       item.droppableId = item.id + '';
       item._isCorrect = true;
       item._userAnswer = [];
       const itemOptions = item._options || [];
+      console.log(itemOptions);
       itemOptions.forEach((option, optionIndex) => {
         option.id = index++;
         option._optionIndex = optionIndex;
@@ -33,6 +94,7 @@ export default class DnDMultipleModel extends QuestionModel {
         option._isCorrect = true;
       });
     });
+
     items.unshift({
       title: this.get('_startText') || '',
       _options: [],
@@ -40,12 +102,12 @@ export default class DnDMultipleModel extends QuestionModel {
       droppableId: '0'
     });
     this.set({ _correctItems: items, _items: items });
-
     this.setUpItemsOptions();
   }
 
   setUpItemsOptions() {
     const items = JSON.parse(JSON.stringify(this.get('_items'))) || [];
+    console.log(items);
     const options = items.reduce((options, item, itemIndex) => {
       const itemOptions = item._options || [];
       options.push(...itemOptions);
@@ -218,6 +280,7 @@ export default class DnDMultipleModel extends QuestionModel {
   resetUserAnswer() {
     this.set('_userAnswer', []);
   }
+
   resetItems() {
     const objectItems = this.get('_items');
     const items = Object.keys(this.get('_items')).map(
@@ -239,6 +302,7 @@ export default class DnDMultipleModel extends QuestionModel {
   resetQuestion() {
     this.resetItems();
   }
+
   getResponse() {
     const response = this.get('_userAnswer').map((option) => {
       return option.join('.');

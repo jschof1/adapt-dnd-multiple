@@ -17,7 +17,11 @@
         "_supportedLayout": {
             "type": "string",
             "required": true,
-            "enum": ["full-width", "half-width", "both"],
+            "enum": [
+                "full-width",
+                "half-width",
+                "both"
+            ],
             "default": "half-width",
             "editorOnly": true
         },
@@ -45,7 +49,10 @@
             "default": 1,
             "title": "Attempts",
             "inputType": "Number",
-            "validators": ["required", "number"],
+            "validators": [
+                "required",
+                "number"
+            ],
             "help": "How many attempts the learner is allowed"
         },
         "_canShowModelAnswer": {
@@ -72,7 +79,6 @@
             "inputType": "Checkbox",
             "validators": []
         },
-       
         "_shouldDisplayAttempts": {
             "type": "boolean",
             "required": false,
@@ -82,7 +88,6 @@
             "validators": [],
             "help": "Display the number of attempts remaining?"
         },
-       
         "_useStrictOrder": {
             "type": "boolean",
             "required": false,
@@ -97,7 +102,9 @@
             "default": 1,
             "title": "Question Weight",
             "inputType": "Number",
-            "validators": ["number"],
+            "validators": [
+                "number"
+            ],
             "help": "How much this question is worth"
         },
         "_recordInteraction": {
@@ -124,7 +131,9 @@
             "default": "Items",
             "title": "Title first item column",
             "inputType": "Text",
-            "validators": ["required"],
+            "validators": [
+                "required"
+            ],
             "help": "Text that will be displayed at the first item column.",
             "translatable": true
         },
@@ -134,8 +143,23 @@
             "default": 0,
             "title": "Item minimum height",
             "inputType": "Number",
-            "validators": ["number"],
+            "validators": [
+                "number"
+            ],
             "help": "Minimum height of the item. If set to 0, the height will be calculated automatically."
+        },
+        "textId": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "required": false,
+            "default": [],
+            "title": "Text IDs",
+            "inputType": "List",
+            "validators": [],
+            "help": "List of Text IDs",
+            "translatable": true
         },
         "_items": {
             "type": "array",
@@ -150,7 +174,9 @@
                         "required": true,
                         "default": "",
                         "inputType": "Text",
-                        "validators": ["required"],
+                        "validators": [
+                            "required"
+                        ],
                         "help": "Title text displayed above the item drag",
                         "translatable": true
                     },
@@ -168,7 +194,9 @@
                                     "default": "",
                                     "title": "Option Text",
                                     "inputType": "Text",
-                                    "validators": ["required"],
+                                    "validators": [
+                                        "required"
+                                    ],
                                     "help": "Option text",
                                     "translatable": true
                                 },

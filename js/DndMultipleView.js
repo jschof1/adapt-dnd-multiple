@@ -5,7 +5,14 @@ class DndMultipleView extends QuestionView {
     this.setItems = (...args) => this.model.setItems(...args);
   }
 
-  setupQuestion() {}
+  initialize() {
+    super.initialize();
+    // Listen for changes in the _items attribute
+    this.listenTo(this.model, 'change:_items', this.render);
+  }
+
+  setupQuestion() {
+  }
 
   onQuestionRendered() {
     this.setReadyStatus();
